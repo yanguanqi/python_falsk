@@ -1,12 +1,12 @@
 {% extends "base.html"%}
 
-{% block cotent%}
+{%block content%}
     <h1>Sign In</h1>
     <form action="" methond="post" novalidate>
         {{ form.hidden_tag() }}
         <p>
            {{ form.username.label }}<br>
-            {{form.username(size=32}}
+            {{form.username(size=32)}}
         </p>
         <p>
           {{form.password.label}}<br>
