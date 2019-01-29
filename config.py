@@ -9,7 +9,7 @@ class Config(object):
                               'sqlite:///' + os.path.join(basedir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    LOGGING_MODE = os.environ.get('LOGGING_MODE') or 'FILE'
+    LOGGING_MODE = os.environ.get('LOGGING_MODE') or 'None' or 'FILE'
 
     MAIL_SERVER = os.environ.get('MAIL_SERVER') or 'smtp.aliyun.com'
     MAIL_PORT = int(os.environ.get('MAIL_PORT') or 465)
@@ -17,3 +17,5 @@ class Config(object):
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME') or 'yangaunqi@aliyun.com'
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     ADMINS = ['your-email@example.com']
+
+    POSTS_PER_PAGE = 3
