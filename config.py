@@ -11,11 +11,12 @@ class Config(object):
 
     LOGGING_MODE = os.environ.get('LOGGING_MODE') or 'None' or 'FILE'
 
-    MAIL_SERVER = os.environ.get('MAIL_SERVER') or 'smtp.aliyun.com'
+    MAIL_SERVER = os.environ.get('MAIL_SERVER') or 'smtp.aaa.com'
     MAIL_PORT = int(os.environ.get('MAIL_PORT') or 465)
-    MAIL_USER_TLS = os.environ.get('MAIL_USER_TLS') or '1'
-    MAIL_USERNAME = os.environ.get('MAIL_USERNAME') or 'yangaunqi@aliyun.com'
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
-    ADMINS = ['your-email@example.com']
+    MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS') or '0'
+    MAIL_USE_SSL = os.environ.get('MAIL_USE_SSL') or '1'
+    MAIL_USERNAME = os.environ.get('MAIL_USERNAME') or 'xxxxxxxx@zzzz.com'
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') or ''
+    ADMINS = ['aaa@qa.com', 'aai@ss.com']
 
     POSTS_PER_PAGE = 3
