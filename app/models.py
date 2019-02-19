@@ -17,7 +17,6 @@ followers = db.Table('followers',
 
 
 class User(UserMixin, db.Model):
-    print("User(UserMixin,db.Model)")
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
@@ -70,8 +69,6 @@ class User(UserMixin, db.Model):
     @staticmethod
     def verify_reset_password_token(token):
         try:
-            print("recieve the token!")
-            print(token)
             id = jwt.decode(token, app.config['SECRET_KEY'],
                             algorithms=['HS256'])['reset_password']
         except:
@@ -80,17 +77,15 @@ class User(UserMixin, db.Model):
 
 
 class Post(db.Model):
-    print("Post(db.Model)")
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.String(140))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-
+    language = db.Column(db.String(5))
     def __repr__(self):
         return '<Post {}>'.format(self.body)
 
 
 @login.user_loader
 def load_user(id):
-    print("Call method load_user(id)")
     return User.query.get(int(id))

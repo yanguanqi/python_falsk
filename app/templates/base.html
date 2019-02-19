@@ -1,34 +1,77 @@
-<html>
-<head>
-    {% if title %}
-    <title>{{title}} - Microblog</title>
-    {%else%}
-    <title>Home Microblog</title>
-    {%endif%}
-<body>
-<div>
-    Microblog:
-    <a href="{{ url_for('index')}}">Home</a>
-    <a href="{{ url_for('explore') }}">Explore</a>
-    {% if current_user.is_anonymous %}
-    <a href="{{url_for('login')}}">Login</a>
-    {% else %}
-    <a href="{{url_for('user',username=current_user.username)}}">Profile</a>
-    <a href="{{url_for('logout')}}">Logout</a>
-    {%endif%}
-</div>
+{% extends 'bootstrap/base.html' %}
+{% block title %}
+{% if title %}{{ _('%(title)s',title=title) }} - {{_('Microblog') }}{% else %} {{ _('Welcome to Microblog') }} {% endif %}
+{% endblock %}
 
-<hr>
-<hr>
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-<ul>
+{% block navbar %}
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <button aria-expanded="false" class="navbar-toggle collapsed" data-target="#bs-example-navbar-collapse-1"
+                    data-toggle="collapse" type="button">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{ url_for('index') }}">{{_('Microblog')}}</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="{{ url_for('index') }}">{{_('Home')}}</a></li>
+                <li><a href="{{ url_for('explore') }}">{{_('Explore')}}</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if current_user.is_anonymous %}
+                <li><a href="{{ url_for('login') }}">{{_('Login')}}</a></li>
+                {% else %}
+                <li><a href="{{ url_for('user', username=current_user.username) }}">{{_('Profile')}}</a></li>
+                <li><a href="{{ url_for('logout') }}">{{_('Logout')}}</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% with messages = get_flashed_messages()%}
+    {% if messages%}
     {% for message in messages %}
-    <li>{{ message }}</li>
+    <div class="alert alert-info" role="alert">{{ message }}</div>
     {% endfor %}
-</ul>
-{% endif %}
-{% endwith %}
-{% block content %}{%endblock %}
-</body>
-</html>
+    {% endif %}
+    {% endwith %}
+
+    {# application content needs to be provide in the app_content block #}
+    {% block app_content %}
+    {% endblock %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{{ moment.include_moment() }}
+{{ moment.lang(g.locale) }}
+<script>
+    function translate(sourceElem, destElem, sourceLang, destLang) {
+        $(destElem).html('<img src="{{ url_for('
+        static
+        ', filename='
+        loading.gif
+        ') }}">'
+    )
+        ;
+        $.post('/translate', {
+            text: $(sourceElem).text(),
+            source_language: sourceLang,
+            dest_language: destLang
+        }).done(function (response) {
+            $(destElem).text(response['text'])
+        }).fail(function () {
+            $(destElem).text("{{ _('Error: Could not contact server.') }}");
+        });
+    }
+</script>
+{% endblock %}

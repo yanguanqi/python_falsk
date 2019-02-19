@@ -19,4 +19,6 @@ class Config(object):
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') or ''
     ADMINS = ['aaa@qa.com', 'aai@ss.com']
 
+    MS_TRANSLATOR_KEY = '01a6af61c13c4d4ab9af24d4ffdbeeae'
     POSTS_PER_PAGE = 3
+    LANGUAGES = ['zh', 'en', 'es']
