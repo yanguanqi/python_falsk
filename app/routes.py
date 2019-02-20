@@ -19,6 +19,7 @@ from app.translate import translate
 @app.route('/translate', methods=['POST'])
 @login_required
 def translate_text():
+    print(request.form['text'], request.form['source_language'], request.form['dest_language'])
     return jsonify({'text': translate(request.form['text'],
                                       request.form['source_language'],
                                       request.form['dest_language'])})
